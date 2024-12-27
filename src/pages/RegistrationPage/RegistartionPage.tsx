@@ -1,44 +1,39 @@
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import validateForm from "../../helpers/validate";
 import useAuthStore from "../../store/AuthStore";
 
-import style from './AuthPage.module.sass'
+import style from './RegistrationPage.module.sass'
 import Notifications from "../../components/Notification/Notifications";
 
-const AuthPage = () => {
-  const { user, signIn, error } = useAuthStore();
-
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState({ email: "", password: "" })
+const RegistrationPage = () => {
+  const { signUp, error } = useAuthStore();
 
   const navigate = useNavigate()
 
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" });
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const validationResult = validateForm(form);
-    
+
     if (!validationResult.isValid) {
       setErrors({
         email: validationResult.email,
         password: validationResult.password,
       });
     } else {
-      await signIn(form)
-      console.log(user)
-    }
-  }
-
-  useEffect(() => {
-    if(user) {
+      await signUp(form)
       navigate('/news')
     }
-  }, [user])
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -55,17 +50,16 @@ const AuthPage = () => {
     }));
   };
 
-
-  return(
+  return (
     <div className={style.formContainer}>
-      <Typography fontSize={28}>Авторизация</Typography>
+      <Typography fontSize={28}>Регистрация</Typography>
           <form className={style.form} onSubmit={handleSubmit}>
             <TextField
               id="email"
               placeholder="email"
               variant="outlined"
               margin="normal"
-              required
+              required   
               fullWidth
               autoComplete="email"
               autoFocus
@@ -89,13 +83,13 @@ const AuthPage = () => {
               helperText={errors.password}
             />
             <div className={style.containerBtn}>
-            <Button onClick={() => navigate('/sign-up')}>Еще нет аккаунта?</Button>
-            <Button type="submit" variant="contained">Авторизоваться</Button>
+            <Button onClick={() => navigate('/sign-in')}>Уже есть аккаунт?</Button>
+            <Button type="submit" variant="contained">Регистрация</Button>
             </div>
           </form>
-          {error && <Notifications message={error} />}
+          {error && <Notifications message={error} /> }
     </div>
   )
 }
 
-export default AuthPage;
+export default RegistrationPage;

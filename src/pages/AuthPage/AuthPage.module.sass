@@ -1,0 +1,28 @@
+.formContainer
+  display: flex
+  justify-content: center
+  align-items: center
+  flex-direction: column
+  height: 100vh
+  gap: 10px
+
+.containerBtn
+  display: flex
+  justify-content: space-between
+
+.typography
+  font-size: 28px
+  color: white
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4)
+  animation: slideIn 1s ease-in-out
+
+@keyframes slideIn
+  from
+    opacity: 0
+    transform: translateX(-50px)
+  to
+    opacity: 1
+    transform: translateX(0)
+
+.form
+  width: 25%
